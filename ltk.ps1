@@ -34,6 +34,8 @@ $token = ($wmicOutput | Select-String -Pattern '--remoting-auth-token=([\w-]*)')
 $summonerId = (curl.exe --insecure -H "Accept: application/json" -u riot:$token https://127.0.0.1:$port/lol-summoner/v1/current-summoner | ConvertFrom-json).summonerId
 $puuid = (curl.exe --insecure -H "Accept: application/json" -u riot:$token https://127.0.0.1:$port/lol-summoner/v1/current-summoner | ConvertFrom-json).puuid
 
+py requirements.py
+
 function CalculateAccountWorth {
     $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
     $enterPressed = $false
@@ -83,7 +85,7 @@ function FindTheirWeaknesses {
     $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
     $enterPressed = $false
     Write-Host "Downloading data..." -ForegroundColor Cyan
-    #curl.exe --insecure -H "Accept: application/json" -u riot:$token https://127.0.0.1:$port/lol-champ-select/v1/session > ./data/champ-select-data.json 
+    curl.exe --insecure -H "Accept: application/json" -u riot:$token https://127.0.0.1:$port/lol-champ-select/v1/session > ./data/champ-select-data.json 
     Write-Host "Running script..." -ForegroundColor Cyan
     py ./scripts/champ-select-counters-script.py
     Write-Host "Press Enter to continue ..." -ForegroundColor Cyan

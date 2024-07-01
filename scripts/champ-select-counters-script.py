@@ -63,6 +63,9 @@ file_path_champions = os.path.join(dir, "../data/champions-data.json")
 with open(file_path_select, "r", encoding="utf-8-sig") as f:
     try:
         select_data = json.load(f)
+        if select_data.get("httpStatus") == 404:
+            print("You're not in champ select.")
+            exit(0)
     except json.JSONDecodeError as e:
         print(f"Error decoding JSON from {file_path_select}: {e}")
         exit(1)
