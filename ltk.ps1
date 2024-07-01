@@ -28,6 +28,14 @@ vvvvvvv           vvvvvvvaaaaaaaaaaaaa    l::::l     ddddddddd:::::d    oooooooo
 
 Start-Sleep -Seconds 2.5
 
+$leagueClientProcess = Get-Process -Name "LeagueClientUx" -ErrorAction SilentlyContinue
+
+if (-not $leagueClientProcess) {
+    Write-Host "You must start League Client first !" -ForegroundColor Red
+    Start-Sleep -Seconds 2
+    exit 1
+}
+
 $wmicOutput = wmic PROCESS WHERE name=`'LeagueClientUx.exe`' GET commandline
 $port = ($wmicOutput  | Select-String -Pattern '--app-port=([0-9]*)').matches.groups[1].Value
 $token = ($wmicOutput | Select-String -Pattern '--remoting-auth-token=([\w-]*)').matches.groups[1].Value
